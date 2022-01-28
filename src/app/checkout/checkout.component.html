@@ -1,0 +1,82 @@
+<div class="mt-5 row justify-content-center">
+
+  <div class="col-6">
+
+
+    <div class="mt-2 mb-3 alert alert-dismissible alert-success" *ngIf="showSuccess">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="closeToaster()"></button>
+      <strong>Hurray!</strong> Order placed <strong>successfully</strong>🎉
+    </div>
+
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="showOffers"
+        (click)="onShowOffers()">
+      <label class="form-check-label" for="flexSwitchCheckChecked">Offers</label>
+    </div>
+
+    <div class="mt-2 card">
+      <div class="card-body">
+        <h4 class="card-title">Checkout</h4>
+
+
+        <div *ngFor="let item of cartItems; index as i">
+
+          <div class="mt-2 row align-items-center">
+            <div class="col-3">
+              <img class="align-self-center mr-3 rounded" [src]='item.product.imageUrl' alt="Generic placeholder image"
+                width="80px">
+            </div>
+            <div class="col" style="line-height: 44px;">
+              <div>
+                {{ item.product.name }}
+
+                <!-- Increase decrease cart items -->
+                <button type="button" class="btn btn-outline-secondary btn-sm moreButton"
+                  (click)='subtract(i)'>-</button>&nbsp;
+                <span>{{ item.quantity }}</span>&nbsp;
+                <button type="button" class="btn btn-outline-secondary btn-sm moreButton" (click)='add(i)'>+</button>
+              </div>
+
+              <!-- Offers -->
+              <div *ngIf="showOffers">
+                <select class="form-select" id="exampleSelect1" #val (click)="onOfferSelect(i, val.value)">
+                  <option>-- select offer --</option>
+                  <option *ngFor="let offer of item.product.offers">{{ offer.name }}</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="col-2">
+              <div class="text-end">{{ item.quantity * item.product.price | number : '1.0-2' }}</div>
+              <div class="text-end" *ngIf='item.discount' style="color: red;"> - {{ item.discount | number : '1.0-2' }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <hr>
+
+        <div>
+
+          <div class="row align-items-center">
+            <div class="col">
+              <h5 class="mt-0">Total</h5>
+            </div>
+            <div class="col">
+              <div class="text-end">{{ total | number : '1.0-2'}}</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-4 text-end">
+          <button type="button" class="btn btn-primary" (click)='placeOrder()'>Place Order</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
